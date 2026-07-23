@@ -1,3 +1,20 @@
+### define the problem:
+In multiplexing, multiple samples are pooled together so they can be sequenced in parallel on a single lane. This is done because it is efficient highly and cost-effective. Indexing can then be used to sort out reads after sequencing. After sequencing, the samples need to be linked back to their specific sample, or demultiplexed. This program takes the four reads (two sequences and two indexes), and sorts the sequences according to their indexes. It also handles index hopping, which is when a read has an incorrect index.
+
+### describe output:
+* one R1 FASTQ file and one R2 FASTQ file per each matching index pair
+* two FASTQ files for index hopping
+* two FASTQ files for unknown (has at least one 'N') or low quality (does not meet quality score cutoff) reads
+* tab-separated file with numbers of reads in each category, i.e.:
+```
+Total Matched   200
+Total Hopped    100
+Unknown 100
+GTAGCGTA-GTAGCGTA  5
+CTCTGGAT-ATCATGCG   0
+...
+```
+
 ### pseudocode:
 ```
 index set and dict function
