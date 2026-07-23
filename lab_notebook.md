@@ -1,0 +1,80 @@
+#### 07/21
+Initial data exploration. Index1 match given indexes, Index2 is the reverse compliment:
+```bash
+$ zcat 1294_S1_L008_R2_001.fastq.gz | sed -n '2~4p' | grep -v "^N" | head
+TACCGGAT
+CTCTGGAT
+CTCTGGAT
+TACCGGAT
+CTCTGGAT
+TACCGGAT
+TACCGGAT
+AGAGTCCA
+TCTTCGAC
+GTAGCGTA
+
+$ zcat 1294_S1_L008_R3_001.fastq.gz | sed -n '2~4p' | grep -v "^N" | head
+GCTATCCT
+ATCCAGAG
+TGAGCTAG
+CATGGCCG
+ATCCAGAG
+TGAGCTAG
+ATCGATCG
+ATCCAGAG
+TGGACTCT
+ACTCTCGA
+```
+Records appear to come in the same order for read files and index files. Also, '#' encodes for 'N', implying Phred+33 encoding:
+```bash
+$ zcat 1294_S1_L008_R1_001.fastq.gz | head
+@K00337:83:HJKJNBBXX:8:1101:1265:1191 1:N:0:1
+GNCTGGCATTCCCAGAGACATCAGTACCCAGTTGGTTCAGACAGTTCCTCTATTGGTTGACAAGGTCTTCATTTCTAGTGATATCAACACGGTGTCTACAA
++
+A#A-<FJJJ<JJJJJJJJJJJJJJJJJFJJJJFFJJFJJJAJJJJ-AJJJJJJJFFJJJJJJFFA-7<AJJJFFAJJJJJF<F--JJJJJJF-A-F7JJJJ
+@K00337:83:HJKJNBBXX:8:1101:1286:1191 1:N:0:1
+CNACCTGTCCCCAGCTCACAGGACAGCACACCAAAGGCGGCAACCCACACCCAGTTTTACAGCCACACAGTGCCTTGTTTTACTTGAGGACCCCCCACTCC
++
+A#AAFJJJJJJJJJJFJJJJJJJJJJJJJJJJJJJJJJJJFJJJJJJJJJJJJJJAJJJJJJJJJJJJJJFJJJJJFFFFJJJJJJJJJJJJJJJJJJ77F
+@K00337:83:HJKJNBBXX:8:1101:1347:1191 1:N:0:1
+GNGGTCTTCTACCTTTCTCTTCTTTTTTGGAGGAGTAGAATGTTGAGAGTCAGCAGTAGCCTCATCATCACTAGATGGCATTTCTTCTGAGCAAAACAGGT
+
+$ zcat 1294_S1_L008_R2_001.fastq.gz | head
+@K00337:83:HJKJNBBXX:8:1101:1265:1191 2:N:0:1
+NCTTCGAC
++
+#AA<FJJJ
+@K00337:83:HJKJNBBXX:8:1101:1286:1191 2:N:0:1
+NACAGCGA
++
+#AAAFJJJ
+@K00337:83:HJKJNBBXX:8:1101:1347:1191 2:N:0:1
+NTCCTAAG
+```
+Read length is 101 and 8 for reads and indexes, respectively:
+```bash
+$ zcat 1294_S1_L008_R1_001.fastq.gz | head -2 | tail -1 | wc -c
+102
+
+$ zcat 1294_S1_L008_R2_001.fastq.gz | head -2 | tail -1 | wc -c
+9
+```
+363,246,735 records:
+```bash
+$ zcat 1294_S1_L008_R1_001.fastq.gz | wc -l
+1452986940
+
+1452986940 / 4 = 363246735
+```
+
+#### 07/22
+Finding how many indexes have undetermined base calls:
+```bash
+$ zcat /projects/bgmp/shared/2017_sequencing/1294_S1_L008_R2_001.fastq.gz | sed -n '2~4p' | grep "N" | wc -l
+3976613
+
+$ zcat /projects/bgmp/shared/2017_sequencing/1294_S1_L008_R3_001.fastq.gz | sed -n '2~4p' | grep "N" | wc -l
+3328051
+```
+
+Manually created test files located in `TEST-input_FASTQ/` and `TEST-output_FASTQ`
