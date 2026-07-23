@@ -1,4 +1,4 @@
-pseudocode:
+### pseudocode:
 ```
 index set and dict function
     open and loop over indexes text file to read
@@ -15,7 +15,7 @@ reverse compliment function
     define an empty string
     loop over index in reverse
         append compliment bp to empty string
-    return string
+    return strings
 
 qual_score function from bioinfo module
 
@@ -46,6 +46,7 @@ write results function
     open text file to write
         write matched, hopped, unk, and index dict numbers with tab separated
 ```
+### high level functions:
 ```python
 def get_indexes(index_file: str) -> (set, dict):
     '''Takes a tab separate file with indexes and
