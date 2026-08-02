@@ -12,7 +12,11 @@
 
 2. Per-base NT distribution
     1. Use markdown to insert your 4 histograms here.
-    2. **YOUR ANSWER HERE**
+    ![Quality score distribution for read 1](hists/R1_hist.png)
+    ![Quality score distribution for index 1](hists/R2_hist.png)
+    ![Quality score distribution for index 2](hists/R3_hist.png)
+    ![Quality score distribution for read 2](hists/R4_hist.png)
+    2. Based on the distribution plots, a good quality score cutoff for index reads is Q30. This is low enough that it doesn't exceed any of the average quality values, while being high enough to ensure good quality data and remove outliers. For the sequence reads, I would also use a cutoff of Q30 for similar reasons.
     3. 3,976,613 indexes in R2 and 3,328,051 indexes in R3 have undetermined base calls. This is 7,304,664 indexes in total.
     ```bash
     Commands used:

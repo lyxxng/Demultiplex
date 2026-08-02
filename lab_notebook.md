@@ -78,3 +78,16 @@ $ zcat /projects/bgmp/shared/2017_sequencing/1294_S1_L008_R3_001.fastq.gz | sed 
 ```
 
 Manually created test files located in `TEST-input_FASTQ/` and `TEST-output_FASTQ`
+
+#### 08/01
+Wrote a script for making the quality score distributions located at `Assignment-the-fist/qual_dist.py`. I tested it with a smaller file first by piping the first 100 records:
+```bash
+$ zcat /projects/bgmp/shared/2017_sequencing/1294_S1_L008_R1_001.fastq.gz | head -400 > Assignment-the-first/test.fq
+```
+Once I determined that my script worked correctly for the small test file, I ran the script on the four larger files. I used argparse so I could input the name of the input and output files and some other data used in the code, and ran the script four times as batch jobs. Here is the `usr/bin/time` data from those runs:
+| Job | Elapsed time | CPU | MRSS |
+| --- | --- | --- | --- |
+| run_R1_hist.sh | 1:44:41 | 99% | 70.4 MB |
+| run_R2_hist.sh | 13:11.16 | 99% | 72.3 MB |
+| run_R3_hist.sh | 13:13.73 | 99% | 80.0 MB |
+| run_R4_hist.sh | 1:45:31 | 99% | 70.2 MB |

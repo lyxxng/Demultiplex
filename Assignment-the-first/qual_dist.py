@@ -1,30 +1,37 @@
 #!/usr/bin/env python
 
+import argparse
 import bioinfo
 import gzip
+import matplotlib.pyplot as plt
 import numpy as np
 
-READ1 = "/projects/bgmp/shared/2017_sequencing/1294_S1_L008_R1_001.fastq.gz"
-INDEX1 = "/projects/bgmp/shared/2017_sequencing/1294_S1_L008_R2_001.fastq.gz"
-INDEX2 = "/projects/bgmp/shared/2017_sequencing/1294_S1_L008_R3_001.fastq.gz"
-READ2 = "/projects/bgmp/shared/2017_sequencing/1294_S1_L008_R4_001.fastq.gz"
+def get_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-i", help="name of file for input")
+    parser.add_argument("-o", help="name of file for output")
+    parser.add_argument("-l", help="length of sequence")
+    parser.add_argument("-n", help="name of read (e.g., Read 1 or Index 1)")
 
-r1_arr, r2_arr = np.zeros(101), np.zeros(101)
-i1_arr, i2_arr = np.zeros(8), np.zeros(8)
+    return parser.parse_args()
+
+args = get_args()
+
+qual_arr = np.zeros(int(args.l))
 
 line = 0
-with gzip.open(READ1, "rt") as r1, gzip.open(INDEX1) as i1, \
-    gzip.open(INDEX2) as i2, gzip.open(READ2) as r2:
-    while True:
-        r1_line = r1.readline().strip("\n")
-        if r1_line == "":
-            break
-        # print(r1_line)
-        if line % 4 == 3:
-            # print(r1_line)
-            for nt, qual in enumerate(r1_line):
-                # print(str(qual))
-                r1_arr[nt] += bioinfo.convert_phred(qual)
-        line += 1
+with gzip.open(args.i, "rt") as f:
+    for i, line in enumerate(f):
+        # Grab only the lines with quality score info
+        if i % 4 == 3:
+            line = line.strip("\n")
+            for nt, qual in enumerate(line):
+                qual_arr[nt] += bioinfo.convert_phred(qual)
+    # Each index contains the average qual score
+    qual_arr = qual_arr / (i / 4)
 
-print(r1_arr)
+plt.scatter(range(int(args.l)), qual_arr)
+plt.title(f"Quality Score Distribution Per Nucleotide for {args.n}")
+plt.xlabel("Nucleotide Index")
+plt.ylabel("Average Phred Quality Score")
+plt.savefig(f"{args.o}_hist.png")
