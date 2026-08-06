@@ -91,3 +91,17 @@ Once I determined that my script worked correctly for the small test file, I ran
 | run_R2_hist.sh | 13:11.16 | 99% | 72.3 MB |
 | run_R3_hist.sh | 13:13.73 | 99% | 80.0 MB |
 | run_R4_hist.sh | 1:45:31 | 99% | 70.2 MB |
+
+#### 08/04
+Ran my demultiplexing script. Job number was 45990590.
+| Job | Elapsed time | CPU | MRSS |
+| --- | --- | --- | --- |
+| run_demultiplex.sh | 1:08:32 | 75% | 258.4 MB |
+
+Used a quality cutoff of 30 and had a lot of unknowns. Going to rewrite to use no quality cutoff and also use lists instead of numpy arrays, since I think that is slowing it down.
+
+#### 08/05
+Rewrote my code to store the records in lists instead of numpy arrays. Job number was 46007752. It was 20 minutes faster than the previous version.
+| Job | Elapsed time | CPU | MRSS |
+| --- | --- | --- | --- |
+| run_demultiplex.sh | 48:17.46 | 78% | 246.0 MB |
