@@ -115,6 +115,10 @@ ENV/
 
 # mypy
 .mypy_cache/
-# pixi environments
-.pixi/*
-!.pixi/config.toml
+
+# extra test files
+test/
+
+# slurm jobs
+*.out
+*.err
