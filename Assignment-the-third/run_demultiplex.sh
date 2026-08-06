@@ -15,4 +15,4 @@ R4="$DIR/1294_S1_L008_R4_001.fastq.gz"
 INDEX="$DIR/indexes.txt"
 SCRATCH="/scratch/bgmp/lxy/demux"
 
-/usr/bin/time -v python ./demultiplex.py -1 $R1 -2 $R2 -3 $R3 -4 $R4 -i $INDEX -o $SCRATCH -q 30
+/usr/bin/time -v python ./demultiplex.py -1 $R1 -2 $R2 -3 $R3 -4 $R4 -i $INDEX -o $SCRATCH -q 0
